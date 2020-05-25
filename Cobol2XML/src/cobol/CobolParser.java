@@ -57,10 +57,29 @@ public class CobolParser {
 		
 		a.add( DateWritten() );
 		
+		a.add( constantValue() );
+		
 		a.add(new Empty());
 		return a;
 	}
 	
+	/*
+	 * Return a parser that will recognise the grammar:
+	 * 
+	 *    constant value;
+	 *
+	 */
+	protected Parser constantValue() {
+		
+		Sequence s = new Sequence();
+		s.add(new Num());
+		s.add(new Word());
+		s.add(new CaselessLiteral("value"));
+		s.add(new Num());
+		s.setAssembler(new ConstantValueAssembler());
+		return s;
+	}
+
 	/*
 	 * Return a parser that will recognize the grammar:
 	 * 
